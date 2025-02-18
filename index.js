@@ -49,7 +49,7 @@ let jobListing = [
         employmentType: "Part Time",
         location: "UK Only",
         badges: ["Facelt"],
-        logo: "img.png",
+        color: "logo-magenta",
         requiredSkills: ["Backend", "Junior", "Ruby", "RoR"],
         postDate: "2d ago",
     },
@@ -58,7 +58,7 @@ let jobListing = [
         employmentType: "Full Time",
         location: "Worldwide",
         badges: ["Shortly"],
-        logo: "img_1.png",
+        color: "logo-green",
         requiredSkills: ["Frontend", "Junior", "HTML", "Javascript", "SASS"],
         postDate: "2w ago",
     },
@@ -67,7 +67,7 @@ let jobListing = [
         employmentType: "Full Time",
         location: "USA Only",
         badges: ["Insure"],
-        logo: "img_2.png",
+        color: "logo-gray",
         requiredSkills: ["Frontend", "Junior", "HTML", "Javascript", "SASS"],
         postDate: "2w ago",
     },
@@ -76,20 +76,19 @@ let jobListing = [
         employmentType: "Full Time",
         location: "Worldwide",
         badges: ["Eyecam Co."],
-        logo: "img_3.png",
+        color: "logo-orange",
         requiredSkills: ["Fullstack", "Midweight", "Javascript", "Python", "Django"],
         postDate: "3w ago",
     }
 ];
 
-let jobContainer = document.getElementById("job-list");
+const jobContainer = document.getElementById("job-list");
 
-// Function to render jobs
 function renderJobs(jobs) {
-    jobContainer.innerHTML = ""; // Clear previous jobs before rendering
+    jobContainer.innerHTML = ""; // Clear previous jobs
 
     jobs.forEach((job) => {
-        let jobRow = document.createElement("div");
+        const jobRow = document.createElement("div");
         jobRow.classList.add("job-row");
 
         jobRow.innerHTML = `
@@ -128,7 +127,39 @@ function filterJobs() {
     renderJobs(filteredJobs);
 }
 
+function addJob() {
+    const title = document.getElementById("job-title").value;
+    const location = document.getElementById("job-location").value;
+    const employmentType = document.getElementById("job-employment").value;
+    const skills = document.getElementById("job-skills").value.split(",").map(skill => skill.trim());
+
+    if (!title || !location || !employmentType || skills.length === 0) {
+        alert("Please fill out all fields.");
+        return;
+    }
+
+    const newJob = {
+        title,
+        location,
+        employmentType,
+        badges: ["NEW!"],
+        color: "logo-green",
+        requiredSkills: skills,
+    };
+
+    jobListing.push(newJob);
+
+    renderJobs(jobListing);
+
+
+    document.getElementById("job-title").value = "";
+    document.getElementById("job-location").value = "";
+    document.getElementById("job-skills").value = "";
+}
+
+
 renderJobs(jobListing);
+
 
 document.getElementById("search-bar").addEventListener("input", filterJobs);
 
